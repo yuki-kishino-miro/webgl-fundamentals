@@ -75,8 +75,8 @@ export function task08() {
     gl.enableVertexAttribArray(colorAttributeLocation)
 
     gl.bindBuffer(gl.ARRAY_BUFFER, pointBuffer)
-    gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 20, 0)
-    gl.vertexAttribPointer(colorAttributeLocation, 3, gl.FLOAT, false, 20, 8)
+    gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, Float32Array.BYTES_PER_ELEMENT * 5, 0)
+    gl.vertexAttribPointer(colorAttributeLocation, 3, gl.FLOAT, false, Float32Array.BYTES_PER_ELEMENT * 5, Float32Array.BYTES_PER_ELEMENT * 2)
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer)
     gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0)
 }
