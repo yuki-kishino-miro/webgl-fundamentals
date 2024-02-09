@@ -3,7 +3,7 @@ import { initWebGLContext } from '../utils/gl/context'
 import { createProgram } from '../utils/gl/shader'
 import { registerOnUnload } from '../utils/registerOnUnload'
 
-const task = 'Task 2: Draw 2 triangles next to each other using glDrawArrays by adding more vertices to your data'
+const task = 'Task 3: Draw 2 triangles next to each other using two different array buffers for their vertices data'
 
 const vs = `
 attribute vec2 a_position;
@@ -20,9 +20,9 @@ void main() {
 }
 `
 
-export function task02() {
+export function task03() {
     const {canvas, gl} = initWebGLContext(500, 500)
-    appendTask(task, 'task02', canvas)
+    appendTask(task, 'task03', canvas)
     if (!canvas || !gl) {
         return
     }
@@ -33,19 +33,30 @@ export function task02() {
     }
     const positionAttributeLocation = gl.getAttribLocation(program, "a_position")
 
-    const positions = [
+    // Tri 1
+    const positions1 = [
         -0.75, -0.5, 
         -0.25, -0.5,
         -0.5, 0.5,
+    ]
+    const positionBuffer1 = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer1)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions1), gl.STATIC_DRAW)
+    registerOnUnload(() => {
+        gl.deleteBuffer(positionBuffer1)
+    })
+
+    // Tri 2
+    const positions2 = [
         0.25, -0.5,
         0.75, -0.5, 
         0.5, 0.5,
     ]
-    const positionBuffer = gl.createBuffer()
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW)
+    const positionBuffer2 = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer2)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions2), gl.STATIC_DRAW)
     registerOnUnload(() => {
-        gl.deleteBuffer(positionBuffer)
+        gl.deleteBuffer(positionBuffer2)
     })
 
     gl.enable(gl.CULL_FACE)
@@ -58,7 +69,13 @@ export function task02() {
     gl.useProgram(program)
     gl.enableVertexAttribArray(positionAttributeLocation)
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
+    // Tri 1
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer1)
     gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0)
-    gl.drawArrays(gl.TRIANGLES, 0, 6)
+    gl.drawArrays(gl.TRIANGLES, 0, 3)
+
+    // Tri 2
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer2)
+    gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0)
+    gl.drawArrays(gl.TRIANGLES, 0, 3)
 }
