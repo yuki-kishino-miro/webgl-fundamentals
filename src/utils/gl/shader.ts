@@ -26,9 +26,6 @@ export function createProgram(gl: WebGLRenderingContext, vertexShaderSource: str
     if (!program) {
         gl.deleteShader(vertexShader)
         gl.deleteShader(fragmentShader)
-        try {
-            gl.deleteProgram(program)
-        } catch (err) {}
         return null
     }
     gl.attachShader(program, vertexShader)
