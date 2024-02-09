@@ -1,8 +1,14 @@
 {
+  "name": "webgl-fundamentals",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
     "start": "parcel ./src/*.html --dist-dir dist",
-    "build": "parcel build ./src/*.html --dist-dir . --no-source-maps"
+    "build": "parcel build ./src/*.html --dist-dir . --no-source-maps --public-url /webgl-fundamentals/"
   },
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
     "parcel": "^2.11.0"
   }
