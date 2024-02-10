@@ -47,6 +47,9 @@ export function task04() {
     if (!program1) {
         return
     }
+    registerOnUnload(() => {
+        gl.deleteProgram(program1)
+    })
     const positionAttributeLocation1 = gl.getAttribLocation(program1, "a_position")
 
     // Shader Program 2
@@ -54,6 +57,9 @@ export function task04() {
     if (!program2) {
         return
     }
+    registerOnUnload(() => {
+        gl.deleteProgram(program2)
+    })
     const positionAttributeLocation2 = gl.getAttribLocation(program2, "a_position")
 
     // Tri 1

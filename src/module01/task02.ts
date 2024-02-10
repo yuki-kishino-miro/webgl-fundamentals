@@ -31,6 +31,9 @@ export function task02() {
     if (!program) {
         return
     }
+    registerOnUnload(() => {
+        gl.deleteProgram(program)
+    })
     const positionAttributeLocation = gl.getAttribLocation(program, "a_position")
 
     const positions = [

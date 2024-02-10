@@ -38,6 +38,9 @@ export function task01() {
     if (!program) {
         return
     }
+    registerOnUnload(() => {
+        gl.deleteProgram(program)
+    })
     const positionAttributeLocation = gl.getAttribLocation(program, "a_position")
     const transformUniformLocation = gl.getUniformLocation(program, "u_transform")
     const colorUniformLocation = gl.getUniformLocation(program, "u_color")

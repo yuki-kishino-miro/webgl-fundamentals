@@ -36,6 +36,9 @@ export function task08() {
     if (!program) {
         return
     }
+    registerOnUnload(() => {
+        gl.deleteProgram(program)
+    })
     const positionAttributeLocation = gl.getAttribLocation(program, "a_position")
     const colorAttributeLocation = gl.getAttribLocation(program, "a_color")
 

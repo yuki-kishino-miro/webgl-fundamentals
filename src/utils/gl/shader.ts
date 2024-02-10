@@ -7,8 +7,7 @@ function createShader(gl: WebGLRenderingContext, type: number, source: string): 
     }
     gl.shaderSource(shader, source)
     gl.compileShader(shader)
-    const success = gl.getShaderParameter(shader, gl.COMPILE_STATUS)
-    if (!success) {
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
         console.log(`Shader compiling error: ${gl.getShaderInfoLog(shader)}`)
         gl.deleteShader(shader)
         return null
@@ -20,6 +19,8 @@ export function createProgram(gl: WebGLRenderingContext, vertexShaderSource: str
     const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource)
     const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource)
     if (!vertexShader || !fragmentShader) {
+        vertexShader && gl.deleteShader(vertexShader)
+        fragmentShader && gl.deleteShader(fragmentShader)
         return null
     }
     const program = gl.createProgram()
@@ -33,14 +34,10 @@ export function createProgram(gl: WebGLRenderingContext, vertexShaderSource: str
     gl.linkProgram(program)
     gl.deleteShader(vertexShader)
     gl.deleteShader(fragmentShader)
-    const success = gl.getProgramParameter(program, gl.LINK_STATUS)
-    if (!success) {
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
         console.log(`Shader Program error: ${gl.getProgramInfoLog(program)}`)
         gl.deleteProgram(program)
         return null
     }
-    registerOnUnload(() => {
-        gl.deleteProgram(program)
-    })
     return program
 }
